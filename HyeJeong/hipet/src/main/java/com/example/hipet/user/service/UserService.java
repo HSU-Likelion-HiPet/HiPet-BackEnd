@@ -1,6 +1,7 @@
 package com.example.hipet.user.service;
 
 import com.example.hipet.domain.User;
+import com.example.hipet.user.dto.UserLoginDto;
 import com.example.hipet.user.dto.UserSignUpDto;
 import com.example.hipet.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -50,9 +51,33 @@ public class UserService {
                 .build();
         userRepository.save(newUser); //사용자 저장
 
+        //회원가입 성공
         return ResponseEntity.status(HttpStatus.OK.value())
                 .body(CustomApiResponse.createSuccess(HttpStatus.OK.value(), null,"회원가입에 성공하였습니다."));
 
 
+    }
+
+    public ResponseEntity<CustomApiResponse<?>> login(UserLoginDto userLoginDto) {
+
+        //아이디 존재하지 않음
+        Optional<User> idExistUser =userRepository.findByLoginId(userLoginDto.getLoginId());
+        if(idExistUser.isEmpty()){
+            CustomApiResponse<Object> failResponse=CustomApiResponse
+                    .createFailWithOut(HttpStatus.NOT_FOUND.value(), "아이디가 존재하지 않는 회원입니다.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failResponse);
+        }
+
+        //패스워드 불일치
+        if(!idExistUser.get().getPassword().equals(userLoginDto.getPassword())){
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(CustomApiResponse.createFailWithOut(HttpStatus.UNAUTHORIZED.value(),
+                            "비밀번호가 일치하지 않습니다."));
+        }
+
+        //로그인 성공
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CustomApiResponse.createSuccess(HttpStatus.OK.value(), null,"로그인에 성공하였습니다."));
     }
 }
