@@ -14,7 +14,7 @@ public class User extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name="USER_ID")
-    private String userId; //고유의 아이디 - 사용자에게 부여되는
+    private Long userId; //고유의 아이디 - 사용자에게 부여되는
 
     @Column(name="LOGIN_ID")
     private String loginId; //로그인 아이디
