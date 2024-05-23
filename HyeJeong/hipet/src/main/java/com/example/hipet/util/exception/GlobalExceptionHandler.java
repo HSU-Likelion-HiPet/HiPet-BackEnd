@@ -1,4 +1,4 @@
-package util.exception;
+package com.example.hipet.util.exception;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import util.response.CustomApiResponse;
+import com.example.hipet.util.response.CustomApiResponse;
 
 import java.util.stream.Collectors;
 
@@ -19,9 +19,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<CustomApiResponse<?>>
     handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         //에러 메세지를 얻어온다
-        String errorMessage = e.getBindingResult()
-                .getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.joining(";"));
+        String errorMessage = e.getBindingResult().getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining("; "));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(CustomApiResponse.createFailWithOut(HttpStatus.BAD_REQUEST.value(),errorMessage));
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
     handleConstraintViolationException(ConstraintViolationException e) {
         String errorMessage = e.getConstraintViolations().stream()
                 .map(ConstraintViolation::getMessage)
-                .collect(Collectors.joining(";"));
+                .collect(Collectors.joining("; "));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(CustomApiResponse.createFailWithOut(HttpStatus.BAD_REQUEST.value(),errorMessage));

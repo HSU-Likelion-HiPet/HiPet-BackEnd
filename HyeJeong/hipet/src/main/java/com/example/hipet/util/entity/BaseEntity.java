@@ -1,4 +1,4 @@
-package util.entity;
+package com.example.hipet.util.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

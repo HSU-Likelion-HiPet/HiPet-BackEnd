@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import util.response.CustomApiResponse;
+import com.example.hipet.util.response.CustomApiResponse;
 
 import java.util.Optional;
 
@@ -22,7 +22,6 @@ public class UserService {
     public ResponseEntity<CustomApiResponse<?>> signUp(UserSignUpDto userSignUpDto) {
         // 회원 중복 확인
         String loginId=userSignUpDto.getLoginId();
-        String nickname=userSignUpDto.getNickname();
 
         //아이디 중복
         Optional<User> idExistUser =userRepository.findByLoginId(loginId);
@@ -32,22 +31,13 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(failResponse);
         }
 
-        //닉네임 중복
-        Optional<User> nicknameExistUser =userRepository.findByNickname(nickname);
-        if(nicknameExistUser.isPresent()){
-            CustomApiResponse<Object> failResponse=CustomApiResponse
-                    .createFailWithOut(HttpStatus.BAD_REQUEST.value(), "이미 사용 중인 닉네임 입니다.");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(failResponse);
-        }
-
         //존재하지 않으면 회원가입 진행
         User newUser=User.builder()
                 .loginId(loginId)
-                .nickname(nickname)
                 .password(userSignUpDto.getPassword())
-                .phoneNumber(userSignUpDto.getPhoneNumber())
                 .address(userSignUpDto.getAddress())
                 .profileInfo("") // 채널 소개는 기본으로 빈 문자열 생성 -> 추후 수정
+                .profilePhoto("") // 채널 소개는 기본으로 빈 문자열 생성 -> 추후 수정
                 .build();
         userRepository.save(newUser); //사용자 저장
 
@@ -58,6 +48,7 @@ public class UserService {
 
     }
 
+    //로그인
     public ResponseEntity<CustomApiResponse<?>> login(UserLoginDto userLoginDto) {
 
         //아이디 존재하지 않음
