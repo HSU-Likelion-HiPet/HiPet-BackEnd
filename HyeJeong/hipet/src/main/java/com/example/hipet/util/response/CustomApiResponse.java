@@ -1,4 +1,4 @@
-package util.response;
+package com.example.hipet.util.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

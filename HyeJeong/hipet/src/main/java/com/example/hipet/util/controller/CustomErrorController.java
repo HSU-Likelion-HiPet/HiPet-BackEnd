@@ -1,4 +1,4 @@
-package util.controller;
+package com.example.hipet.util.controller;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import util.response.CustomApiResponse;
+import com.example.hipet.util.response.CustomApiResponse;
 
 @RestController
 public class CustomErrorController implements ErrorController {
@@ -53,7 +53,7 @@ public class CustomErrorController implements ErrorController {
             }
 
             //500 Internal Server Error
-            else if(statusCode==500){
+            else{
                 return ResponseEntity
                         .status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(new CustomApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(),
