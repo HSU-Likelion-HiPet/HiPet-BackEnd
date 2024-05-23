@@ -34,5 +34,16 @@ public class User {
     private String profilePhoto; //사용자 사진
 
 
+    // 사용자 이름 수정 메소드
+    public void changeUserName(String newUserName) {this.userName = newUserName;}
+
+    //사용자 주소 수정 메소드
+    public void changeAddress(String newAddress) {this.address = newAddress;}
+
+    //사용자 소개 수정 메소드
+    public void changeProfileInfo(String newProfileInfo) {this.profileInfo = newProfileInfo;}
+
+    //사용자 사진 수정 메소드
+    public void changeProfilePhoto(String newProfilePhoto) {this.profilePhoto = newProfilePhoto;}
 
 }
