@@ -43,6 +43,7 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Region region; // 주소
 
+    @Column(name="TOTAL_RATE_FOR_USER")
     private Double totalUserRate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
