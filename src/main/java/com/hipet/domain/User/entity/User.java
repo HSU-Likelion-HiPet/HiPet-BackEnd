@@ -1,7 +1,7 @@
 package com.hipet.domain.User.entity;
 
 import com.hipet.domain.animal.entity.Animal;
-import com.hipet.domain.animal.entity.AnimalPhotos;
+import com.hipet.domain.review.entity.Review;
 import com.hipet.global.entity.BaseEntity;
 import com.hipet.global.enums.Region;
 import jakarta.persistence.*;
@@ -27,16 +27,22 @@ public class User extends BaseEntity {
 
     private String password;
 
-    private String userNme;
-
-    private String nickName;
+    private String userName;
 
     private String phoneNumber;
 
+    @Enumerated(EnumType.STRING)
     private Region region;
 
     private String profileInfo;
 
+    private Double totalUserRate;
+
+    private String profileImage;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Animal> animalList;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviewList;
 }
