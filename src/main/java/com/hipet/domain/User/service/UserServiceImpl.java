@@ -1,16 +1,16 @@
-package com.example.hipet.user.service;
+package com.hipet.domain.User.service;
 
-import com.example.hipet.domain.User;
-import com.example.hipet.user.dto.UserLoginDto;
-import com.example.hipet.user.dto.UserPageUpdateDto;
-import com.example.hipet.user.dto.UserSignUpDto;
-import com.example.hipet.user.repository.UserRepository;
+import com.hipet.domain.User.entity.User;
+import com.hipet.domain.User.repository.UserRepository;
+import com.hipet.domain.User.web.dto.UserLoginDto;
+import com.hipet.domain.User.web.dto.UserPageUpdateDto;
+import com.hipet.domain.User.web.dto.UserSignUpDto;
+import com.hipet.global.entity.response.CustomApiResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.example.hipet.util.response.CustomApiResponse;
 
 import java.util.Optional;
 
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService{
         Optional<User> idExistUser =userRepository.findByLoginId(loginId);
         if(idExistUser.isPresent()){
             CustomApiResponse<Object> failResponse=CustomApiResponse
-                    .createFailWithOut(HttpStatus.BAD_REQUEST.value(), "이미 사용 중인 아이디 입니다.");
+                    .createFailWithoutData(HttpStatus.BAD_REQUEST.value(), "이미 사용 중인 아이디 입니다.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(failResponse);
         }
 
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService{
         Optional<User> idExistUser =userRepository.findByLoginId(userLoginDto.getLoginId());
         if(idExistUser.isEmpty()){
             CustomApiResponse<Object> failResponse=CustomApiResponse
-                    .createFailWithOut(HttpStatus.NOT_FOUND.value(), "아이디가 존재하지 않는 회원입니다.");
+                    .createFailWithoutData(HttpStatus.NOT_FOUND.value(), "아이디가 존재하지 않는 회원입니다.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failResponse);
         }
 
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService{
         if(!idExistUser.get().getPassword().equals(userLoginDto.getPassword())){
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
-                    .body(CustomApiResponse.createFailWithOut(HttpStatus.UNAUTHORIZED.value(),
+                    .body(CustomApiResponse.createFailWithoutData(HttpStatus.UNAUTHORIZED.value(),
                             "비밀번호가 일치하지 않습니다."));
         }
 
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService{
         Optional<User> idExistUser =userRepository.findByLoginId(loginId);
         if(idExistUser.isEmpty()){
             CustomApiResponse<Object> failResponse=CustomApiResponse
-                    .createFailWithOut(HttpStatus.NOT_FOUND.value(), "아이디가 존재하지 않는 회원입니다.");
+                    .createFailWithoutData(HttpStatus.NOT_FOUND.value(),"아이디가 존재하지 않는 회원입니다.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failResponse);
         }
 
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService{
         Optional<User> idExistUser =userRepository.findByLoginId(loginId);
         if(idExistUser.isEmpty()){
             CustomApiResponse<Object> failResponse=CustomApiResponse
-                    .createFailWithOut(HttpStatus.NOT_FOUND.value(), "아이디가 존재하지 않는 회원입니다.");
+                    .createFailWithoutData(HttpStatus.NOT_FOUND.value(), "아이디가 존재하지 않는 회원입니다.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failResponse);
         }
 

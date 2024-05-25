@@ -1,4 +1,4 @@
-package com.example.hipet.user.dto;
+package com.hipet.domain.User.web.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
