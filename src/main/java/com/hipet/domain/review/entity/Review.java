@@ -1,0 +1,39 @@
+package com.hipet.domain.review.entity;
+
+import com.hipet.domain.User.entity.User;
+import com.hipet.domain.animal.entity.Animal;
+import com.hipet.global.entity.BaseEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Entity
+@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class Review extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reviewId;
+
+    private Double rate;
+
+    private String text;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private User userId;
+
+    @OneToMany(mappedBy = "reviewId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewImage> reviewImages;
+
+    @ManyToOne
+    @JoinColumn(name = "animalId")
+    private Animal animalId;
+}
