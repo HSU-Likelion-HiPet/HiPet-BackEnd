@@ -1,4 +1,4 @@
-package com.hipet.domain.User.web.dto;
+package com.hipet.domain.message.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

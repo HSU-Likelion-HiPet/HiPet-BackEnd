@@ -6,6 +6,7 @@ import com.hipet.domain.User.web.dto.UserLoginDto;
 import com.hipet.domain.User.web.dto.UserPageUpdateDto;
 import com.hipet.domain.User.web.dto.UserSignUpDto;
 import com.hipet.global.entity.response.CustomApiResponse;
+import com.hipet.global.enums.Region;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService{
         User newUser=User.builder()
                 .loginId(loginId)
                 .password(userSignUpDto.getPassword())
-                .address(userSignUpDto.getAddress())
+                .region(Region.valueOf("NATIONAL"))
                 .userName(userSignUpDto.getUserName())
                 .profileInfo("") // 채널 소개는 기본으로 빈 문자열 생성 -> 추후 수정
                 .profilePhoto("") // 채널 소개는 기본으로 빈 문자열 생성 -> 추후 수정
