@@ -1,5 +1,6 @@
 package com.hipet.domain.animal.service;
 
+import com.hipet.domain.User.entity.User;
 import com.hipet.domain.User.repository.UserRepository;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.domain.animal.entity.AnimalPhotos;
@@ -55,6 +56,16 @@ public class AnimalServiceImpl implements AnimalService{
             price = null;
         }
 
+        Optional<User> getUser = userRepository.findByLoginId(request.getUserId());
+
+        if(getUser.isEmpty()){
+            CustomApiResponse<?> response = CustomApiResponse.createFailWithoutData(HttpStatus.BAD_REQUEST.value(), "전송 데이터 목록을 확인해주세요.");
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        User user = getUser.get();
+
         Animal animal = Animal.builder()
                 .animalName(request.getAnimalName())
                 .price(price)
@@ -62,7 +73,7 @@ public class AnimalServiceImpl implements AnimalService{
                 .gender(Gender.valueOf(request.getGender()))
                 .information(request.getDescription())
                 .animalPhotos(new ArrayList<>())
-                .user(userRepository.findByLoginId(request.getUserId()))
+                .user(user)
                 .hashTag(new ArrayList<>())
                 .build();
 
@@ -116,7 +127,7 @@ public class AnimalServiceImpl implements AnimalService{
 
         // user 에 담을 DTO
         GetOneAnimalResponseDto.GetUserInfo getUserInfo = new GetOneAnimalResponseDto.GetUserInfo();
-        getUserInfo.setProfileImage(animal.getUser().getProfileImage());
+        getUserInfo.setProfileImage(animal.getUser().getProfilePhoto());
         getUserInfo.setLoginId(animal.getUser().getLoginId());
         getUserInfo.setUserName(animal.getUser().getUserName());
         getUserInfo.setUserInfo(animal.getUser().getProfileInfo());

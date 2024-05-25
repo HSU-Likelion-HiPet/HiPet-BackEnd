@@ -1,7 +1,6 @@
-package com.example.hipet.user.dto;
+package com.hipet.domain.User.web.dto;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

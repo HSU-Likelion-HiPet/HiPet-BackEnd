@@ -1,14 +1,14 @@
-package com.example.hipet.user.controller;
+package com.hipet.domain.User.web.controller;
 
-import com.example.hipet.user.dto.UserLoginDto;
-import com.example.hipet.user.dto.UserPageUpdateDto;
-import com.example.hipet.user.dto.UserSignUpDto;
-import com.example.hipet.user.service.UserServiceImpl;
+import com.hipet.domain.User.web.dto.UserLoginDto;
+import com.hipet.domain.User.web.dto.UserPageUpdateDto;
+import com.hipet.domain.User.web.dto.UserSignUpDto;
+import com.hipet.domain.User.service.UserServiceImpl;
+import com.hipet.global.entity.response.CustomApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.hipet.util.response.CustomApiResponse;
 
 @RestController
 @RequiredArgsConstructor
