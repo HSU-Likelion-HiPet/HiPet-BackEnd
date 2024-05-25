@@ -1,7 +1,7 @@
 package com.hipet.domain.animal.service;
 
-import com.hipet.domain.User.entity.User;
-import com.hipet.domain.User.repository.UserRepository;
+import com.hipet.domain.user.entity.User;
+import com.hipet.domain.user.repository.UserRepository;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.domain.animal.entity.AnimalPhotos;
 import com.hipet.domain.animal.entity.HashTag;

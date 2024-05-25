@@ -1,4 +1,4 @@
-package com.hipet.domain.User.web.dto;
+package com.hipet.domain.user.web.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
