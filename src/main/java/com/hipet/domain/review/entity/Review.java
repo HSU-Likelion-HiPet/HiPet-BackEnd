@@ -1,6 +1,6 @@
 package com.hipet.domain.review.entity;
 
-import com.hipet.domain.User.entity.User;
+import com.hipet.domain.user.entity.User;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.global.entity.BaseEntity;
 import jakarta.persistence.*;

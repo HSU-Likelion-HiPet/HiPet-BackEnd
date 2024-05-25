@@ -1,14 +1,15 @@
-package com.hipet.domain.User.service;
+package com.hipet.domain.user.service;
 
-import com.hipet.domain.User.entity.User;
-import com.hipet.domain.User.repository.UserRepository;
-import com.hipet.domain.User.web.dto.UserLoginDto;
-import com.hipet.domain.User.web.dto.UserPageUpdateDto;
-import com.hipet.domain.User.web.dto.UserSignUpDto;
+import com.hipet.domain.user.entity.User;
+import com.hipet.domain.user.repository.UserRepository;
+import com.hipet.domain.user.web.dto.UserLoginDto;
+import com.hipet.domain.user.web.dto.UserPageUpdateDto;
+import com.hipet.domain.user.web.dto.UserSignUpDto;
 import com.hipet.global.entity.response.CustomApiResponse;
 import com.hipet.global.enums.Region;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService{
         User newUser=User.builder()
                 .loginId(loginId)
                 .password(userSignUpDto.getPassword())
-                .region(Region.valueOf("NATIONAL"))
+                .region(Region.NATIONAL.getDisplayName())
                 .userName(userSignUpDto.getUserName())
                 .profileInfo("") // 채널 소개는 기본으로 빈 문자열 생성 -> 추후 수정
                 .profilePhoto("") // 채널 소개는 기본으로 빈 문자열 생성 -> 추후 수정
@@ -108,12 +109,12 @@ public class UserServiceImpl implements UserService{
         }
 
         //사용자 정보 업데이트
-        User user =idExistUser.get();
+        User user = idExistUser.get();
         user.changeUserName(req.getUserName());
-        user.changeAddress(req.getAddress());
+        user.changeRegion(Region.valueOf(req.getRegion()));
         user.changeProfileInfo(req.getProfileInfo());
         user.changeProfilePhoto(req.getProfilePhoto());
-        userRepository.flush(); //변경사항을 데이터베이스에 즉시 적용
+        userRepository.flush(); // 변경사항을 데이터베이스에 즉시 적용
 
         // 수정된 게시글 정보 응답
         return ResponseEntity.status(HttpStatus.OK)

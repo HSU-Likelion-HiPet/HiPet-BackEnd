@@ -1,11 +1,10 @@
 package com.hipet.domain.message.entity;
 
-import com.hipet.domain.User.entity.User;
+import com.hipet.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -30,6 +29,15 @@ public class Message {
     @JoinColumn(name = "SENDER_ID", referencedColumnName = "USER_ID")
     private User senderId; // 수신자 ID 고유 번호
 
-    @Column(name="sendAt")
+    @Column(name="SEND_AT")
     private LocalDateTime sendAt; //전송 시각
+
+    public Message createMessage(User receiverId, User senderId, Message text){
+        return Message.builder()
+                .receiverId(receiverId)
+                .senderId(senderId)
+                .text(text.getText())
+                .sendAt(LocalDateTime.now())
+                .build();
+    }
 }

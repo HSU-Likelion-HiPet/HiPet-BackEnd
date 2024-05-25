@@ -1,6 +1,6 @@
-package com.hipet.domain.User.repository;
+package com.hipet.domain.user.repository;
 
-import com.hipet.domain.User.entity.User;
+import com.hipet.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.hipet.domain.animal.entity;
 
-import com.hipet.domain.User.entity.User;
+import com.hipet.domain.user.entity.User;
 import com.hipet.domain.animal.enums.Gender;
 import com.hipet.domain.review.entity.Review;
 import com.hipet.global.entity.BaseEntity;
