@@ -25,6 +25,10 @@ public class AnimalPhotoServiceImpl implements AnimalPhotoService{
     @Override
     public List<AnimalPhotos> photosUpload(List<MultipartFile> files) {
 
+        if (files == null) {
+            throw new IllegalArgumentException("Files list cannot be null");
+        }
+
         // S3에 저장된 이미지 파일의 경로(URL)을 담을 리스트
         List<AnimalPhotos> photosURL = new ArrayList<>();
 
@@ -33,6 +37,7 @@ public class AnimalPhotoServiceImpl implements AnimalPhotoService{
             // S3에 이미지 저장
             String URL = amazonS3Manager.uploadFile(file);
 
+            log.info("URL : {}", URL);
             AnimalPhotos photo = AnimalPhotos.builder()
                     .photoUrl(URL)
                     .build();
