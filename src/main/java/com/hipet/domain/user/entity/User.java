@@ -38,7 +38,7 @@ public class User extends BaseEntity {
     @Column(name="PROFILE_PHOTO")
     private String profilePhoto; //사용자 사진
 
-    @Column(name="region")
+    @Column(name="REGION")
     private String region; //주소
 
     @Column(name="TOTAL_RATE_FOR_USER")
