@@ -32,11 +32,11 @@ public class Message {
     @Column(name="SEND_AT")
     private LocalDateTime sendAt; //전송 시각
 
-    public Message createMessage(User receiverId, User senderId, Message text){
+    public Message createMessage(User receiverId, User senderId, String text){
         return Message.builder()
                 .receiverId(receiverId)
                 .senderId(senderId)
-                .text(text.getText())
+                .text(text)
                 .sendAt(LocalDateTime.now())
                 .build();
     }
