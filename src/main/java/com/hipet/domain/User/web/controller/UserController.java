@@ -17,7 +17,7 @@ public class UserController {
     private final UserServiceImpl userService;
 
     //회원가입
-    @PostMapping(path = "/sign-up")
+    @PostMapping(path = "/signUp")
     private ResponseEntity<CustomApiResponse<?>> signUp(@RequestBody @Valid UserSignUpDto userSignUpDto){
         return userService.signUp(userSignUpDto);
     }
