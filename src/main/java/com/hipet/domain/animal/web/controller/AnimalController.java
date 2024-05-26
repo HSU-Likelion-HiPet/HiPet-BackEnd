@@ -1,12 +1,16 @@
 package com.hipet.domain.animal.web.controller;
 
+import com.hipet.domain.User.service.LikedServiceImpl;
+import com.hipet.domain.User.web.dto.LikedRequestDto;
 import com.hipet.domain.animal.service.AnimalServiceImpl;
 import com.hipet.domain.animal.web.dto.AnimalRequestDto;
+import com.hipet.domain.animal.web.dto.GetOneAnimalRequestDto;
 import com.hipet.domain.animal.web.dto.GetOneAnimalResponseDto;
 import com.hipet.global.entity.response.CustomApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/animal")
 public class AnimalController {
     private final AnimalServiceImpl animalService;
+    private final LikedServiceImpl likedService;
 
     // 동물 등록하기
     @PostMapping("/hipet")
@@ -27,10 +32,19 @@ public class AnimalController {
         return registerResponse;
     }
 
-    @GetMapping("/{animalId}")
-    public ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getAnimalPost(@Valid @PathVariable Long animalId){
-        ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getAnimalInfo = animalService.getOneAnimal(animalId);
+    // 동물 상세보기
+    @GetMapping("/detail")
+    public ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getAnimalPost(@Valid @RequestBody GetOneAnimalRequestDto request){
+        CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto> getAnimalInfo = animalService.getOneAnimal(request);
 
-        return getAnimalInfo;
+        return ResponseEntity.status(HttpStatus.OK).body(getAnimalInfo);
+    }
+
+    // 찜 기능
+    @PostMapping("/like")
+    public ResponseEntity<CustomApiResponse<?>> likedAnimal(@Valid @RequestBody LikedRequestDto request){
+        ResponseEntity<CustomApiResponse<?>> likedAnimal = likedService.AnimalLiked(request);
+
+        return likedAnimal;
     }
 }

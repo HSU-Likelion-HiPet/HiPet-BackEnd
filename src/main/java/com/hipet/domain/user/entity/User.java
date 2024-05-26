@@ -1,7 +1,6 @@
-package com.hipet.domain.user.entity;
+package com.hipet.domain.User.entity;
 
 import com.hipet.domain.animal.entity.Animal;
-import com.hipet.domain.message.entity.Message;
 import com.hipet.domain.review.entity.Review;
 import com.hipet.global.entity.BaseEntity;
 import com.hipet.global.enums.Region;
@@ -32,14 +31,15 @@ public class User extends BaseEntity {
     @Column(name="USER_NAME")
     private String userName; //사용자 이름
 
+    @Column(name="ADDRESS")
+    @Enumerated(EnumType.STRING)
+    private Region address; //주소 -> 범위는 미정..
+
     @Column(name="PROFILE_INFO")
     private String profileInfo; //사용자 소개
 
     @Column(name="PROFILE_PHOTO")
     private String profilePhoto; //사용자 사진
-
-    @Column(name="REGION")
-    private String region; //주소
 
     @Column(name="TOTAL_RATE_FOR_USER")
     private Double totalUserRate;
@@ -50,19 +50,14 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviewList;
 
-    @OneToMany(mappedBy = "senderId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> sendMessageList; //발신 메시지 리스트
-
-    @OneToMany(mappedBy = "receiverId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> receiveMessageList; //수신 메시지 리스트
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Liked> likedList;
 
     // 사용자 이름 수정 메소드
     public void changeUserName(String newUserName) {this.userName = newUserName;}
 
     //사용자 주소 수정 메소드
-    public void changeRegion(Region newRegion) {
-        this.region = newRegion.getDisplayName();
-    }
+    public void changeAddress(Region newAddress) {this.address = newAddress;}
 
     //사용자 소개 수정 메소드
     public void changeProfileInfo(String newProfileInfo) {this.profileInfo = newProfileInfo;}
