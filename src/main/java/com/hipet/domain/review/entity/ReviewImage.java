@@ -21,5 +21,9 @@ public class ReviewImage {
 
     @ManyToOne
     @JoinColumn(name = "reviewId")
-    private Review reviewId;
+    private Review review;
+
+    public void setReview(Review reviewId) {
+        this.review = reviewId;
+    }
 }
