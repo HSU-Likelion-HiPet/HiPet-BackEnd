@@ -19,7 +19,6 @@ import java.util.List;
 public class AnimalPhotoServiceImpl implements AnimalPhotoService{
 
     private final AmazonS3Manager amazonS3Manager;
-    private final AnimalRepository animalRepository;
 
     @Transactional
     @Override
