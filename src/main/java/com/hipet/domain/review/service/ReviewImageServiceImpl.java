@@ -1,7 +1,7 @@
-package com.hipet.domain.animal.service;
+package com.hipet.domain.review.service;
 
 import com.hipet.domain.animal.entity.AnimalPhotos;
-import com.hipet.domain.animal.repository.AnimalRepository;
+import com.hipet.domain.review.entity.ReviewImage;
 import com.hipet.global.aws.s3.AmazonS3Manager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,20 +16,19 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AnimalPhotoServiceImpl implements AnimalPhotoService{
+public class ReviewImageServiceImpl implements ReviewImageService{
 
     private final AmazonS3Manager amazonS3Manager;
 
-    @Transactional
     @Override
-    public List<AnimalPhotos> photosUpload(List<MultipartFile> files) {
-
+    @Transactional
+    public List<ReviewImage> uploadReviewPhotos(List<MultipartFile> files) {
         if (files == null) {
             throw new IllegalArgumentException("Files list cannot be null");
         }
 
         // S3에 저장된 이미지 파일의 경로(URL)을 담을 리스트
-        List<AnimalPhotos> photosURL = new ArrayList<>();
+        List<ReviewImage> reviewPhotosURL = new ArrayList<>();
 
         for(MultipartFile file : files){
 
@@ -37,13 +36,13 @@ public class AnimalPhotoServiceImpl implements AnimalPhotoService{
             String URL = amazonS3Manager.uploadFile(file);
 
             log.info("URL : {}", URL);
-            AnimalPhotos photo = AnimalPhotos.builder()
-                    .photoUrl(URL)
+            ReviewImage photo = ReviewImage.builder()
+                    .imageURL(URL)
                     .build();
 
-            photosURL.add(photo);
+            reviewPhotosURL.add(photo);
         }
 
-        return photosURL;
+        return reviewPhotosURL;
     }
 }

@@ -6,6 +6,7 @@ import com.hipet.domain.User.web.dto.UserLoginDto;
 import com.hipet.domain.User.web.dto.UserPageUpdateDto;
 import com.hipet.domain.User.web.dto.UserSignUpDto;
 import com.hipet.global.entity.response.CustomApiResponse;
+import com.hipet.global.enums.Region;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService{
         User newUser=User.builder()
                 .loginId(loginId)
                 .password(userSignUpDto.getPassword())
-                .address(userSignUpDto.getAddress())
+                .address(Region.valueOf(userSignUpDto.getAddress()))
                 .userName(userSignUpDto.getUserName())
                 .profileInfo("") // 채널 소개는 기본으로 빈 문자열 생성 -> 추후 수정
                 .profilePhoto("") // 채널 소개는 기본으로 빈 문자열 생성 -> 추후 수정
@@ -109,7 +110,7 @@ public class UserServiceImpl implements UserService{
         //사용자 정보 업데이트
         User user =idExistUser.get();
         user.changeUserName(req.getUserName());
-        user.changeAddress(req.getAddress());
+        user.changeAddress(Region.valueOf(req.getAddress()));
         user.changeProfileInfo(req.getProfileInfo());
         user.changeProfilePhoto(req.getProfilePhoto());
         userRepository.flush(); //변경사항을 데이터베이스에 즉시 적용
