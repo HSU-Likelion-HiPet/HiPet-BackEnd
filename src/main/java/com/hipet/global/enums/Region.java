@@ -19,7 +19,7 @@ public enum Region {
     GYEONGNAM("경남"),
     GANGWON("강원"),
     JEJU("제주"),
-    NATIONAL("전국");
+    ALL("전국");
 
     private final String displayName;
 

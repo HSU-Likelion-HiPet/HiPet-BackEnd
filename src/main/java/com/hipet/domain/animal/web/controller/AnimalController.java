@@ -1,7 +1,7 @@
 package com.hipet.domain.animal.web.controller;
 
-import com.hipet.domain.User.service.LikedServiceImpl;
-import com.hipet.domain.User.web.dto.LikedRequestDto;
+import com.hipet.domain.user.service.LikedServiceImpl;
+import com.hipet.domain.user.web.dto.LikedRequestDto;
 import com.hipet.domain.animal.service.AnimalServiceImpl;
 import com.hipet.domain.animal.web.dto.AnimalRequestDto;
 import com.hipet.domain.animal.web.dto.GetOneAnimalRequestDto;
@@ -35,9 +35,11 @@ public class AnimalController {
     // 동물 상세보기
     @GetMapping("/detail")
     public ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getAnimalPost(@Valid @RequestBody GetOneAnimalRequestDto request){
-        CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto> getAnimalInfo = animalService.getOneAnimal(request);
+        // GetOneAnimalRequestDto에서 animalId를 추출
+        Long animalId = request.getAnimalId();
+        ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getAnimalInfo = animalService.getOneAnimal(animalId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(getAnimalInfo);
+        return getAnimalInfo;
     }
 
     // 찜 기능

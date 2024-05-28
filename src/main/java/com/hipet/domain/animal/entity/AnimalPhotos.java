@@ -25,7 +25,6 @@ public class AnimalPhotos extends BaseEntity {
     private Animal animal;
 
     // 연관 관계 편의 메서드
-
     public void setAnimal(Animal animal) {
         this.animal = animal;
     }

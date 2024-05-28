@@ -1,8 +1,5 @@
 package com.hipet.domain.animal.web.dto;
 
-import com.hipet.domain.animal.entity.AnimalPhotos;
-import com.hipet.domain.animal.entity.HashTag;
-import com.hipet.domain.review.entity.Review;
 import lombok.*;
 
 import java.time.LocalDate;

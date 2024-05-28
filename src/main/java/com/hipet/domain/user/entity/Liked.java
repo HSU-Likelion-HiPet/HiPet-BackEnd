@@ -1,4 +1,4 @@
-package com.hipet.domain.User.entity;
+package com.hipet.domain.user.entity;
 
 import com.hipet.domain.animal.entity.Animal;
 import jakarta.persistence.*;

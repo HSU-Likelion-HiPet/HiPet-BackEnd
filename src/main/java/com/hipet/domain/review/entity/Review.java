@@ -1,6 +1,6 @@
 package com.hipet.domain.review.entity;
 
-import com.hipet.domain.User.entity.User;
+import com.hipet.domain.user.entity.User;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.global.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -44,5 +44,13 @@ public class Review extends BaseEntity {
     public void addReviewImage(ReviewImage reviewImage) {
         this.reviewImages.add(reviewImage);
         reviewImage.setReview(this);
+    }
+
+    public User getUser() {
+        return userId;
+    }
+
+    public Animal getAnimal() {
+        return animalId;
     }
 }

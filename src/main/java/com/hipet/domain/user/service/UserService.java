@@ -1,8 +1,8 @@
-package com.hipet.domain.User.service;
+package com.hipet.domain.user.service;
 
-import com.hipet.domain.User.web.dto.UserLoginDto;
-import com.hipet.domain.User.web.dto.UserPageUpdateDto;
-import com.hipet.domain.User.web.dto.UserSignUpDto;
+import com.hipet.domain.user.web.dto.UserLoginDto;
+import com.hipet.domain.user.web.dto.UserPageUpdateDto;
+import com.hipet.domain.user.web.dto.UserSignUpDto;
 import com.hipet.global.entity.response.CustomApiResponse;
 import org.springframework.http.ResponseEntity;
 

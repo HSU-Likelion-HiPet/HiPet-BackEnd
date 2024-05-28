@@ -1,4 +1,4 @@
-package com.hipet.domain.User.web.dto;
+package com.hipet.domain.user.web.dto;
 
 import lombok.Getter;
 import lombok.Setter;
