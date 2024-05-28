@@ -1,5 +1,7 @@
 package com.hipet.domain.review.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "reviews", "user"})
 public class ReviewImage {
 
     @Id
@@ -21,6 +24,7 @@ public class ReviewImage {
 
     @ManyToOne
     @JoinColumn(name = "reviewId")
+    @JsonBackReference
     private Review review;
 
     public void setReview(Review reviewId) {

@@ -34,8 +34,8 @@ public class UserController {
     public ResponseEntity<CustomApiResponse<?>> getUserPage(@PathVariable  String loginId){
         ResponseEntity<CustomApiResponse<?>> result =userService.getUserPage(loginId);
         return result;
-
     }
+
     //나의 페이지(채널) 수정
     @PutMapping("/{loginId}")
     public ResponseEntity<CustomApiResponse<?>> modifyUserPage(

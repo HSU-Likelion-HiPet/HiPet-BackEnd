@@ -1,5 +1,8 @@
 package com.hipet.domain.animal.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hipet.domain.user.entity.Liked;
 import com.hipet.domain.user.entity.User;
 import com.hipet.domain.animal.enums.Gender;
@@ -20,6 +23,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "reviews", "user", "likedList"})
 public class Animal extends BaseEntity {
 
     @Id
@@ -42,22 +46,27 @@ public class Animal extends BaseEntity {
     private String information;
 
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<AnimalPhotos> animalPhotos;
 
     @ManyToOne
     @JoinColumn(name = "userId")
+    @JsonBackReference
     private User user;
 
     // 양방향 연관관계 매핑을 할 때, 연관관계의 주인을 설정해주어야 한다.
     // 연관관계의 주인은 1:N 의 경우 N쪽에 해주면 된다.
     // mappedBy의 값은 반대쪽에 자신이 매핑되어있는 필드명을 써주면 된다.
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<HashTag> hashTag;
 
     @OneToMany(mappedBy = "animalId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Liked> likedList;
 
     // 연관관계 편의 메서드

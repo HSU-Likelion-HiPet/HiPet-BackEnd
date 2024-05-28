@@ -1,5 +1,7 @@
 package com.hipet.domain.User.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hipet.domain.animal.entity.Animal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Liked{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +26,7 @@ public class Liked{
 
     @ManyToOne
     @JoinColumn(name = "animal")
+    @JsonIgnoreProperties("likedList")
     private Animal animal;
 
     public void setAnimal(Animal animal){
