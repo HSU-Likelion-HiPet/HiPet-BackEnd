@@ -1,6 +1,6 @@
 package com.hipet.domain.user.service;
 
-import com.hipet.domain.User.web.dto.LikedRequestDto;
+import com.hipet.domain.user.web.dto.LikedRequestDto;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.domain.animal.repository.AnimalRepository;
 import com.hipet.domain.user.entity.Liked;

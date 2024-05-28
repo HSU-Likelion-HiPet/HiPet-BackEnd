@@ -14,5 +14,6 @@ public class UserPageUpdateDto {
         private String profileInfo; //사용자 소개
         private String profilePhoto; //사용자 사진
 
+
     }
 }

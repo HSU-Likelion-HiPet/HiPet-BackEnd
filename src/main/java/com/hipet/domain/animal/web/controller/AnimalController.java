@@ -1,7 +1,7 @@
 package com.hipet.domain.animal.web.controller;
 
 import com.hipet.domain.user.service.LikedServiceImpl;
-import com.hipet.domain.User.web.dto.LikedRequestDto;
+import com.hipet.domain.user.web.dto.LikedRequestDto;
 import com.hipet.domain.animal.service.AnimalServiceImpl;
 import com.hipet.domain.animal.web.dto.AnimalRequestDto;
 import com.hipet.domain.animal.web.dto.GetOneAnimalRequestDto;

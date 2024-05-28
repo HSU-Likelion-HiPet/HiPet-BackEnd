@@ -29,7 +29,7 @@ public class MessageServiceImpl implements MessageService {
     @Transactional
     public ResponseEntity<CustomApiResponse<?>> sendMessage(MessageSendDto.messageReq req) {
         // 쪽지 발신자가 db에 존재하는지 확인
-        Optional<User> isExistSendUser = userRepository.findByLoginId(req.getSenderID());
+        Optional<User> isExistSendUser = userRepository.findByLoginId(req.getSenderId());
         if (isExistSendUser.isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
@@ -38,7 +38,7 @@ public class MessageServiceImpl implements MessageService {
         }
 
         // 쪽지 수신자가 db에 존재하는지 확인
-        Optional<User> isExistReceiveUser = userRepository.findByLoginId(req.getReceiverID());
+        Optional<User> isExistReceiveUser = userRepository.findByLoginId(req.getReceiverId());
         if (isExistReceiveUser.isEmpty()) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)

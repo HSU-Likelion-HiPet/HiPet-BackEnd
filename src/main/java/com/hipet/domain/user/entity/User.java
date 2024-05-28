@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name="USERS")
+@Table(name="USER")
 public class User extends BaseEntity {
 
     @Id
@@ -30,9 +30,6 @@ public class User extends BaseEntity {
 
     @Column(name="USER_NAME")
     private String userName; //사용자 이름
-
-    @Column(name="ADDRESS")
-    private String address; //주소 -> 범위는 미정..
 
     @Column(name="PROFILE_INFO")
     private String profileInfo; //사용자 소개
@@ -55,8 +52,8 @@ public class User extends BaseEntity {
     // 사용자 이름 수정 메소드
     public void changeUserName(String newUserName) {this.userName = newUserName;}
 
-    //사용자 주소 수정 메소드
-    public void changeAddress(String newAddress) {this.address = newAddress;}
+    //지역 수정 메소드
+    public void changeRegion(String newRegion){this.region= Region.valueOf(newRegion);}
 
     //사용자 소개 수정 메소드
     public void changeProfileInfo(String newProfileInfo) {this.profileInfo = newProfileInfo;}
