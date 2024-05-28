@@ -1,12 +1,12 @@
-package com.hipet.domain.User.service;
+package com.hipet.domain.user.service;
 
-import com.hipet.domain.User.entity.Liked;
-import com.hipet.domain.User.entity.User;
-import com.hipet.domain.User.repository.LikedRepository;
-import com.hipet.domain.User.repository.UserRepository;
-import com.hipet.domain.User.web.dto.LikedRequestDto;
+import com.hipet.domain.user.web.dto.LikedRequestDto;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.domain.animal.repository.AnimalRepository;
+import com.hipet.domain.user.entity.Liked;
+import com.hipet.domain.user.entity.User;
+import com.hipet.domain.user.repository.LikedRepository;
+import com.hipet.domain.user.repository.UserRepository;
 import com.hipet.global.entity.response.CustomApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

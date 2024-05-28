@@ -1,4 +1,4 @@
-package com.hipet.domain.User.entity;
+package com.hipet.domain.user.entity;
 
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.domain.review.entity.Review;
@@ -31,15 +31,14 @@ public class User extends BaseEntity {
     @Column(name="USER_NAME")
     private String userName; //사용자 이름
 
-    @Column(name="ADDRESS")
-    @Enumerated(EnumType.STRING)
-    private Region address; //주소 -> 범위는 미정..
-
     @Column(name="PROFILE_INFO")
     private String profileInfo; //사용자 소개
 
     @Column(name="PROFILE_PHOTO")
     private String profilePhoto; //사용자 사진
+
+    @Enumerated(EnumType.STRING)
+    private Region region; // 주소
 
     @Column(name="TOTAL_RATE_FOR_USER")
     private Double totalUserRate;
@@ -50,14 +49,11 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviewList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Liked> likedList;
-
     // 사용자 이름 수정 메소드
     public void changeUserName(String newUserName) {this.userName = newUserName;}
 
-    //사용자 주소 수정 메소드
-    public void changeAddress(Region newAddress) {this.address = newAddress;}
+    //지역 수정 메소드
+    public void changeRegion(String newRegion){this.region= Region.valueOf(newRegion);}
 
     //사용자 소개 수정 메소드
     public void changeProfileInfo(String newProfileInfo) {this.profileInfo = newProfileInfo;}
