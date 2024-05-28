@@ -1,5 +1,6 @@
 package com.hipet.domain.animal.web.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -13,6 +14,7 @@ import java.util.List;
 public class AnimalRequestDto {
     private String userId;
     private String animalName;
+    @JsonProperty("isPrice")
     private Boolean isPrice;
     private String price;
     private String category;

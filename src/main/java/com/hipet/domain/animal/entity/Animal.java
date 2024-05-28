@@ -1,7 +1,7 @@
 package com.hipet.domain.animal.entity;
 
-import com.hipet.domain.User.entity.Liked;
-import com.hipet.domain.User.entity.User;
+import com.hipet.domain.user.entity.Liked;
+import com.hipet.domain.user.entity.User;
 import com.hipet.domain.animal.enums.Gender;
 import com.hipet.domain.review.entity.Review;
 import com.hipet.global.entity.BaseEntity;
@@ -45,7 +45,7 @@ public class Animal extends BaseEntity {
     private List<AnimalPhotos> animalPhotos;
 
     @ManyToOne
-    @JoinColumn(name = "loginId")
+    @JoinColumn(name = "userId")
     private User user;
 
     // 양방향 연관관계 매핑을 할 때, 연관관계의 주인을 설정해주어야 한다.
@@ -58,7 +58,7 @@ public class Animal extends BaseEntity {
     private List<Review> reviews;
 
     @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Liked> liked;
+    private List<Liked> likedList;
 
     // 연관관계 편의 메서드
     public void addAnimalPhoto(AnimalPhotos animalPhoto) {
@@ -71,13 +71,14 @@ public class Animal extends BaseEntity {
         hashTag.setAnimal(this);
     }
 
-    public void addLiked(Liked liked) {
-        this.liked.add(liked);
-        liked.setAnimal(this);
-    }
-
     public void addReview(Review review) {
         this.reviews.add(review);
         review.setAnimal(this);
     }
+
+    public void addLiked(Liked liked) {
+        this.likedList.add(liked);
+        liked.setAnimal(this);
+    }
+
 }

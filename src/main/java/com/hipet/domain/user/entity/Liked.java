@@ -28,4 +28,8 @@ public class Liked{
     public void setAnimal(Animal animal){
         this.animal = animal;
     }
+
+    public void setUser(User user){
+        this.user = user;
+    }
 }
