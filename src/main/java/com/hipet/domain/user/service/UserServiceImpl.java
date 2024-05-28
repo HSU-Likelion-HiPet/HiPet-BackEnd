@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService{
         User newUser=User.builder()
                 .loginId(loginId)
                 .password(userSignUpDto.getPassword())
-                .region(Region.valueOf("ALL"))
+                .region(Region.valueOf("_ALL"))
                 .userName(userSignUpDto.getUserName())
                 .profileInfo("") // 채널 소개는 기본으로 빈 문자열 생성 -> 추후 수정
                 .profilePhoto("") // 채널 소개는 기본으로 빈 문자열 생성 -> 추후 수정

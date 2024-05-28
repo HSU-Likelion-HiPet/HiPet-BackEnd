@@ -62,6 +62,9 @@ public class LikedServiceImpl implements LikedService{
                 .animal(getAnimalInfo)
                 .build();
 
+        getUser.get().addLiked(newLiked);
+        getAnimalInfo.addLiked(newLiked);
+
         likedRepository.save(newLiked);
 
         CustomApiResponse<?> response = CustomApiResponse.createSuccess(HttpStatus.OK.value(), null, "동물 관심 등록이 완료되었습니다.");

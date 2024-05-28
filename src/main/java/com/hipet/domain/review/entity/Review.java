@@ -53,4 +53,5 @@ public class Review extends BaseEntity {
     public Animal getAnimal() {
         return animalId;
     }
+
 }

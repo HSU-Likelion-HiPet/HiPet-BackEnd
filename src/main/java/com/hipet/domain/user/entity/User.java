@@ -49,6 +49,9 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviewList;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Liked> likedList;
+
     // 사용자 이름 수정 메소드
     public void changeUserName(String newUserName) {this.userName = newUserName;}
 
@@ -60,4 +63,10 @@ public class User extends BaseEntity {
 
     //사용자 사진 수정 메소드
     public void changeProfilePhoto(String newProfilePhoto) {this.profilePhoto = newProfilePhoto;}
+
+    // 연관관계 메서드
+    public void addLiked(Liked liked) {
+        this.likedList.add(liked);
+        liked.setUser(this);
+    }
 }

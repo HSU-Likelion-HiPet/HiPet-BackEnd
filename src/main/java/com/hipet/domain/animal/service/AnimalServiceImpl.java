@@ -60,6 +60,7 @@ public class AnimalServiceImpl implements AnimalService {
 
         User user = getUser.get();
 
+
         Animal animal = Animal.builder()
                 .animalName(request.getAnimalName())
                 .price(price)
@@ -69,6 +70,8 @@ public class AnimalServiceImpl implements AnimalService {
                 .animalPhotos(new ArrayList<>())
                 .user(user)
                 .hashTag(new ArrayList<>())
+                .reviews(new ArrayList<>())
+                .likedList(new ArrayList<>())
                 .build();
 
         for (AnimalPhotos animalPhoto : animalPhotosList) {

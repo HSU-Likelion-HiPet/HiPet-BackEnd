@@ -2,24 +2,24 @@ package com.hipet.global.enums;
 
 public enum Region {
 
-    SEOUL("서울"),
-    GYEONGGI("경기"),
-    INCHEON("인천"),
-    DAEJEON("대전"),
-    SEJONG("세종"),
-    CHUNGNAM("충남"),
-    CHUNGBUK("충북"),
-    GWANGJU("광주"),
-    JEOLLANAM("전남"),
-    JEOLLABUK("전북"),
-    DAEGU("대구"),
-    GYEONGBUK("경북"),
-    BUSAN("부산"),
-    ULSAN("울산"),
-    GYEONGNAM("경남"),
-    GANGWON("강원"),
-    JEJU("제주"),
-    ALL("전국");
+    _SEOUL("서울"),
+    _GYEONGGI("경기"),
+    _INCHEON("인천"),
+    _DAEJEON("대전"),
+    _SEJONG("세종"),
+    _CHUNGNAM("충남"),
+    _CHUNGBUK("충북"),
+    _GWANGJU("광주"),
+    _JEONNAM("전남"),
+    _JEONBUK("전북"),
+    _DAEGU("대구"),
+    _GYEONGBUK("경북"),
+    _BUSAN("부산"),
+    _ULSAN("울산"),
+    _GYEONGNAM("경남"),
+    _GANGWON("강원"),
+    _JEJU("제주"),
+    _ALL("전체");
 
     private final String displayName;
 

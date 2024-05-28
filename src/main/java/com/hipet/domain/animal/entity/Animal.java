@@ -1,5 +1,6 @@
 package com.hipet.domain.animal.entity;
 
+import com.hipet.domain.user.entity.Liked;
 import com.hipet.domain.user.entity.User;
 import com.hipet.domain.animal.enums.Gender;
 import com.hipet.domain.review.entity.Review;
@@ -56,6 +57,9 @@ public class Animal extends BaseEntity {
     @OneToMany(mappedBy = "animalId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Liked> likedList;
+
     // 연관관계 편의 메서드
     public void addAnimalPhoto(AnimalPhotos animalPhoto) {
         this.animalPhotos.add(animalPhoto);
@@ -66,4 +70,15 @@ public class Animal extends BaseEntity {
         this.hashTag.add(hashTag);
         hashTag.setAnimal(this);
     }
+
+    public void addReview(Review review) {
+        this.reviews.add(review);
+        review.setAnimal(this);
+    }
+
+    public void addLiked(Liked liked) {
+        this.likedList.add(liked);
+        liked.setAnimal(this);
+    }
+
 }
