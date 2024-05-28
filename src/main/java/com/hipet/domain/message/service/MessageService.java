@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 public interface MessageService {
     ResponseEntity<CustomApiResponse<?>> sendMessage(MessageSendDto.messageReq req);
 
-
     ResponseEntity<CustomApiResponse<?>> getMessagesWithPartner(String user1, String user2);
+
+    ResponseEntity<CustomApiResponse<?>> getMessagePartnerList(String loginId);
 }
