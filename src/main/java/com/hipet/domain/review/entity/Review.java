@@ -30,10 +30,27 @@ public class Review extends BaseEntity {
     @JoinColumn(name = "userId")
     private User userId;
 
-    @OneToMany(mappedBy = "reviewId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReviewImage> reviewImages;
 
     @ManyToOne
     @JoinColumn(name = "animalId")
     private Animal animalId;
+
+    public void setAnimal(Animal animal) {
+        this.animalId = animal;
+    }
+
+    public void addReviewImage(ReviewImage reviewImage) {
+        this.reviewImages.add(reviewImage);
+        reviewImage.setReview(this);
+    }
+
+    public User getUser() {
+        return userId;
+    }
+
+    public Animal getAnimal() {
+        return animalId;
+    }
 }

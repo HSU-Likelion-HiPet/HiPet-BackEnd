@@ -1,6 +1,6 @@
-package com.hipet.domain.animal.entity;
+package com.hipet.domain.user.entity;
 
-import com.hipet.global.entity.BaseEntity;
+import com.hipet.domain.animal.entity.Animal;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,24 +8,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnimalPhotos extends BaseEntity {
-
+@Getter
+@Builder
+public class Liked{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long photoId;
-
-    private String photoUrl;
+    private Long likedId;
 
     @ManyToOne
-    @JoinColumn(name = "animalId")
+    @JoinColumn(name = "user")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "animal")
     private Animal animal;
 
-    // 연관 관계 편의 메서드
-    public void setAnimal(Animal animal) {
+    public void setAnimal(Animal animal){
         this.animal = animal;
     }
 }
