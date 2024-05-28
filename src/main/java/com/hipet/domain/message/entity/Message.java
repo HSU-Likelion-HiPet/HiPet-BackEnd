@@ -23,11 +23,11 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "RECEIVER_ID", referencedColumnName = "USER_ID")
-    private User receiverId; // 발신자 ID 고유 번호
+    private User receiverId; // 수신자 ID 고유 번호
 
     @ManyToOne
     @JoinColumn(name = "SENDER_ID", referencedColumnName = "USER_ID")
-    private User senderId; // 수신자 ID 고유 번호
+    private User senderId; // 발신자 ID 고유 번호
 
     @Column(name="SEND_AT")
     private LocalDateTime sendAt; //전송 시각
