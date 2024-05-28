@@ -1,5 +1,7 @@
 package com.hipet.domain.animal.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hipet.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "reviews", "user"})
 public class AnimalPhotos extends BaseEntity {
 
     @Id
@@ -22,6 +25,7 @@ public class AnimalPhotos extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "animalId")
+    @JsonBackReference
     private Animal animal;
 
     // 연관 관계 편의 메서드
