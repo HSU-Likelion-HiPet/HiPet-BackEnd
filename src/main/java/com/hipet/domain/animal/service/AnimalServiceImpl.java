@@ -65,6 +65,7 @@ public class AnimalServiceImpl implements AnimalService {
                 .animalName(request.getAnimalName())
                 .price(price)
                 .category(Category.valueOf(request.getCategory()))
+                .region(user.getRegion()) //지역이 null로 들어가서 추가했어용!!!!
                 .gender(Gender.valueOf(request.getGender()))
                 .information(request.getDescription())
                 .animalPhotos(new ArrayList<>())
