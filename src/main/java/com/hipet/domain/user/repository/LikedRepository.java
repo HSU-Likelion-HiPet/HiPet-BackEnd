@@ -1,10 +1,13 @@
 package com.hipet.domain.user.repository;
 
 import com.hipet.domain.user.entity.Liked;
+import com.hipet.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+
+import java.util.Optional;
 
 public interface LikedRepository extends JpaRepository<Liked, Long> {
-    List<Liked> findByUser_UserId(Long id);
+    Optional<Liked> findByUserId(User userId);
+
 }

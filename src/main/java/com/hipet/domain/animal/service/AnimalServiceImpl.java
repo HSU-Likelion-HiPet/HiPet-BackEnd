@@ -1,16 +1,18 @@
 package com.hipet.domain.animal.service;
 
-import com.hipet.domain.user.entity.User;
-import com.hipet.domain.user.repository.UserRepository;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.domain.animal.entity.AnimalPhotos;
 import com.hipet.domain.animal.entity.HashTag;
 import com.hipet.domain.animal.enums.Gender;
 import com.hipet.domain.animal.repository.AnimalRepository;
 import com.hipet.domain.animal.web.dto.AnimalRequestDto;
+import com.hipet.domain.animal.web.dto.GetOneAnimalRequestDto;
 import com.hipet.domain.animal.web.dto.GetOneAnimalResponseDto;
 import com.hipet.domain.review.entity.Review;
-import com.hipet.domain.review.repository.ReviewRepository;
+import com.hipet.domain.user.entity.Liked;
+import com.hipet.domain.user.entity.User;
+import com.hipet.domain.user.repository.LikedRepository;
+import com.hipet.domain.user.repository.UserRepository;
 import com.hipet.global.entity.response.CustomApiResponse;
 import com.hipet.global.enums.Category;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.time.LocalDateTime;
-import java.time.LocalDate;
 
 @Service
 @Slf4j
@@ -36,7 +36,7 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalPhotoServiceImpl animalPhotoService;
     private final AnimalRepository animalRepository;
     private final UserRepository userRepository;
-    private final ReviewRepository reviewRepository;
+    private final LikedRepository likedRepository;
 
     // 동물 등록
     @Override
@@ -45,6 +45,12 @@ public class AnimalServiceImpl implements AnimalService {
 
         if (request == null) {
             CustomApiResponse<?> response = CustomApiResponse.createFailWithoutData(HttpStatus.BAD_REQUEST.value(), "전송 데이터 목록을 확인해주세요.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+
+        if(request.getPhotoFiles() == null){
+            CustomApiResponse<?> response = CustomApiResponse.createFailWithoutData(HttpStatus.BAD_REQUEST.value(), "이미지 파일 전송 목록을 확인해주세요.");
+
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
@@ -96,10 +102,10 @@ public class AnimalServiceImpl implements AnimalService {
     // 등록한 동물 상세보기
     @Override
     @Transactional
-    public ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getOneAnimal(Long animalId) {
+    public ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getOneAnimal(GetOneAnimalRequestDto request) {
         GetOneAnimalResponseDto.FinalResponseDto getOneAnimalResponseDto = new GetOneAnimalResponseDto.FinalResponseDto();
 
-        Optional<Animal> foundData = animalRepository.findByAnimalId(animalId);
+        Optional<Animal> foundData = animalRepository.findByAnimalId(request.getAnimalId());
 
         if (foundData.isEmpty()) {
             CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto> response = CustomApiResponse.createFailWithoutData(HttpStatus.BAD_REQUEST.value(), "요청을 다시 확인해주세요.");
@@ -122,16 +128,31 @@ public class AnimalServiceImpl implements AnimalService {
 
         getOneAnimal.setAnimalName(animal.getAnimalName());
         getOneAnimal.setCategory(String.valueOf(animal.getCategory()));
+        getOneAnimal.setPrice(animal.getPrice());
         getOneAnimal.setCreatedAt(animal.getCreatedAt().toLocalDate());
         getOneAnimal.setRegion(String.valueOf(animal.getRegion()));
         getOneAnimal.setInfo(animal.getInformation());
+
+        Boolean isLiked = false;
+        Optional<User> likedUser = userRepository.findByLoginId(request.getLoginId());
+        User currentUser = likedUser.get();
+
+        Optional<Liked> liked = likedRepository.findByUserId(currentUser);
+
+        if (liked.isEmpty()) {
+            isLiked = false;
+        }
+        else{
+            isLiked = true;
+        }
+        getOneAnimal.setIsLiked(isLiked);
 
         GetOneAnimalResponseDto.GetUserInfo getUserInfo = new GetOneAnimalResponseDto.GetUserInfo();
         getUserInfo.setProfileImage(animal.getUser().getProfilePhoto());
         getUserInfo.setLoginId(animal.getUser().getLoginId());
         getUserInfo.setUserName(animal.getUser().getUserName());
         getUserInfo.setUserInfo(animal.getUser().getProfileInfo());
-        getUserInfo.setTotalRateForUser(animal.getUser().getTotalUserRate());
+        getUserInfo.setTotalRateForUser(getTotalRateForUser(animal.getUser()));
 
         GetOneAnimalResponseDto.GetReview getReview = new GetOneAnimalResponseDto.GetReview();
         List<GetOneAnimalResponseDto.ReviewInfo> reviewInfoList = animal.getReviews().stream()
@@ -149,4 +170,30 @@ public class AnimalServiceImpl implements AnimalService {
 
         return ResponseEntity.ok(response);
     }
+
+
+    // 사용자가 이행한 총 거래에 대한 평점 계산 함수
+    @Override
+    @Transactional
+    public Double getTotalRateForUser(User user) {
+        Double totalRate = 0.0;
+
+        Optional<User> getUser = userRepository.findById(user.getUserId());
+
+        if((getUser.isEmpty())){
+            log.info("Fail to get userInfo! = {}" , user.getUserId());
+        }
+
+        User found = getUser.get();
+
+        List<Review> allReviews = found.getReviewList();
+
+        for(Review review : allReviews){
+            totalRate+=review.getRate();
+        }
+
+        return totalRate/allReviews.size();
+    }
+
+
 }

@@ -65,8 +65,9 @@ public class Animal extends BaseEntity {
     @JsonManagedReference
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, orphanRemoval = true)
+
     @JsonManagedReference
+    @OneToMany(mappedBy = "animalId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Liked> likedList;
 
     // 연관관계 편의 메서드
@@ -87,7 +88,7 @@ public class Animal extends BaseEntity {
 
     public void addLiked(Liked liked) {
         this.likedList.add(liked);
-        liked.setAnimal(this);
+        liked.setAnimalId(this);
     }
 
 }
