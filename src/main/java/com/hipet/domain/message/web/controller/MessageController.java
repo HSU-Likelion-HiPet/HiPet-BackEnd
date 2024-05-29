@@ -19,6 +19,13 @@ public class MessageController {
         return messageService.sendMessage(requestDto);
     }
 
+    @GetMapping("/partnerList")
+    public ResponseEntity<CustomApiResponse<?>> getPartnerList(@RequestParam String loginId) {
+        return messageService.getMessagePartnerList(loginId);
+
+    }
+
+
     //특정 상대와의 메세지 내역 조회
     @GetMapping("/list")
     public ResponseEntity<CustomApiResponse<?>> getMessagesWithPartner(

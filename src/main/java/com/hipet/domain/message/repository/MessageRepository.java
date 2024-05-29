@@ -16,4 +16,7 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             "OR (m.senderId.loginId = :partnerId " +
             "AND m.receiverId.loginId = :loginId) ORDER BY m.sendAt ASC")
     List<Message> findMessagesWithPartner(@Param("loginId") String loginId, @Param("partnerId") String partnerId);
+
+    @Query("SELECT m FROM Message m where (m.receiverId.loginId = :loginId) OR (m.senderId.loginId = :loginId)")
+    List<Message> getMessagePartner(@Param("loginId") String loginId);
 }

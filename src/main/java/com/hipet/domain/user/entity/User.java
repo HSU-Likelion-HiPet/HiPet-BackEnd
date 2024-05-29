@@ -1,5 +1,7 @@
 package com.hipet.domain.user.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.domain.review.entity.Review;
 import com.hipet.global.entity.BaseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="USER")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "reviews", "user"})
 public class User extends BaseEntity {
 
     @Id
@@ -44,10 +47,12 @@ public class User extends BaseEntity {
     private Double totalUserRate;*/
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Animal> animalList;
+    private List<Animal> animalList; //이 사용자가 등록한 동물 게시글
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviewList;
+    @JsonManagedReference
+    private List<Review> reviewList; //이 사용자에게 달린 리뷰
+
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Liked> likedList;
