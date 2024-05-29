@@ -40,8 +40,8 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Region region; // 주소
 
-    @Column(name="TOTAL_RATE_FOR_USER")
-    private Double totalUserRate;
+/*    @Column(name="TOTAL_RATE_FOR_USER")
+    private Double totalUserRate;*/
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Animal> animalList;
@@ -49,7 +49,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviewList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Liked> likedList;
 
     // 사용자 이름 수정 메소드
@@ -67,6 +67,6 @@ public class User extends BaseEntity {
     // 연관관계 메서드
     public void addLiked(Liked liked) {
         this.likedList.add(liked);
-        liked.setUser(this);
+        liked.setUserId(this);
     }
 }

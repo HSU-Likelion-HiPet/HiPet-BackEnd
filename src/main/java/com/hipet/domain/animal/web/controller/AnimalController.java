@@ -37,7 +37,7 @@ public class AnimalController {
     public ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getAnimalPost(@Valid @RequestBody GetOneAnimalRequestDto request){
         // GetOneAnimalRequestDto에서 animalId를 추출
         Long animalId = request.getAnimalId();
-        ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getAnimalInfo = animalService.getOneAnimal(animalId);
+        ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getAnimalInfo = animalService.getOneAnimal(request);
 
         return getAnimalInfo;
     }
