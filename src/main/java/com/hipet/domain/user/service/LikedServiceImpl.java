@@ -58,8 +58,8 @@ public class LikedServiceImpl implements LikedService{
         User user = getUser.get();
 
         Liked newLiked = Liked.builder()
-                .user(user)
-                .animal(getAnimalInfo)
+                .userId(user)
+                .animalId(getAnimalInfo)
                 .build();
 
         getUser.get().addLiked(newLiked);

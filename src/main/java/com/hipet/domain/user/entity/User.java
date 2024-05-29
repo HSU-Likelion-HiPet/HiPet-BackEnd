@@ -1,7 +1,5 @@
 package com.hipet.domain.user.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.domain.review.entity.Review;
 import com.hipet.global.entity.BaseEntity;
@@ -17,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name="USER")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "reviews", "user"})
 public class User extends BaseEntity {
 
     @Id
@@ -43,18 +40,17 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Region region; // 주소
 
-    @Column(name="TOTAL_RATE_FOR_USER")
-    private Double totalUserRate;
+/*    @Column(name="TOTAL_RATE_FOR_USER")
+    private Double totalUserRate;*/
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Animal> animalList; //이 사용자가 등록한 동물 게시글
+    private List<Animal> animalList;
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Review> reviewList; //이 사용자에게 달린 리뷰
+    private List<Review> reviewList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Liked> likedList; //사용자가 찜한 동뮬 게시물
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Liked> likedList;
 
     // 사용자 이름 수정 메소드
     public void changeUserName(String newUserName) {this.userName = newUserName;}
@@ -71,6 +67,6 @@ public class User extends BaseEntity {
     // 연관관계 메서드
     public void addLiked(Liked liked) {
         this.likedList.add(liked);
-        liked.setUser(this);
+        liked.setUserId(this);
     }
 }

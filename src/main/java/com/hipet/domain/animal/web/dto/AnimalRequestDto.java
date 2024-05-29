@@ -1,6 +1,8 @@
 package com.hipet.domain.animal.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.hipet.domain.animal.enums.Gender;
+import com.hipet.global.enums.Category;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,8 +19,8 @@ public class AnimalRequestDto {
     @JsonProperty("isPrice")
     private Boolean isPrice;
     private String price;
-    private String category;
-    private String gender;
+    private Category category;
+    private Gender gender;
     private String description;
     private List<String> hashtag;
     private List<MultipartFile> photoFiles;
