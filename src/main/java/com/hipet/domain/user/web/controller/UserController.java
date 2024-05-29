@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,13 +37,16 @@ public class UserController {
         return result;
     }
 
-    //나의 페이지(채널) 수정
+    // 나의 페이지(채널) 수정
     @PutMapping("/{loginId}")
     public ResponseEntity<CustomApiResponse<?>> modifyUserPage(
-            @PathVariable  String loginId, @RequestBody UserPageUpdateDto.Req req){
-        ResponseEntity<CustomApiResponse<?>> result = userService.modifyUserPage(loginId,req);
+            @PathVariable String loginId,
+            @ModelAttribute @Valid UserPageUpdateDto.Req req) {
+        ResponseEntity<CustomApiResponse<?>> result = userService.modifyUserPage(loginId, req);
         return result;
     }
+
+
 
 
 

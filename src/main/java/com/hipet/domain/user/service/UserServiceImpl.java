@@ -1,5 +1,7 @@
 package com.hipet.domain.user.service;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.domain.animal.repository.AnimalRepository;
 import com.hipet.domain.review.entity.Review;
@@ -11,6 +13,7 @@ import com.hipet.domain.user.web.dto.UserLoginDto;
 import com.hipet.domain.user.web.dto.UserPageDto;
 import com.hipet.domain.user.web.dto.UserPageUpdateDto;
 import com.hipet.domain.user.web.dto.UserSignUpDto;
+import com.hipet.global.aws.s3.AmazonS3Manager;
 import com.hipet.global.entity.response.CustomApiResponse;
 import com.hipet.global.enums.Region;
 import jakarta.transaction.Transactional;
@@ -20,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.hipet.domain.user.entity.User;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,6 +35,7 @@ public class UserServiceImpl implements UserService {
     private final AnimalRepository animalRepository;
     private final ReviewRepository reviewRepository;
     private final LikedRepository likedRepository;
+    private final AmazonS3Manager amazonS3Manager;
 
     @Transactional
     @Override
@@ -118,9 +123,9 @@ public class UserServiceImpl implements UserService {
                 .body(CustomApiResponse.createSuccess(HttpStatus.OK.value(), userPageDto, "사용자 정보 조회에 성공하였습니다."));
     }
 
+    @Transactional
     @Override
     public ResponseEntity<CustomApiResponse<?>> modifyUserPage(String loginId, UserPageUpdateDto.Req req) {
-        // 아이디를 가진 사용자가 존재하는지 확인
         Optional<User> idExistUser = userRepository.findByLoginId(loginId);
         if (idExistUser.isEmpty()) {
             CustomApiResponse<Object> failResponse = CustomApiResponse
@@ -128,15 +133,29 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failResponse);
         }
 
-        // 사용자 정보 업데이트
         User user = idExistUser.get();
         user.changeUserName(req.getUserName());
         user.changeRegion(req.getRegion());
         user.changeProfileInfo(req.getProfileInfo());
-        user.changeProfilePhoto(req.getProfilePhoto());
-        userRepository.flush(); // 변경사항을 데이터베이스에 즉시 적용
 
-        // 수정된 게시글 정보 응답
+        // 프로필 사진 업로드
+        if (req.getProfilePhoto() != null && !req.getProfilePhoto().isEmpty()) {
+            try {
+                String profilePhotoUrl = amazonS3Manager.uploadFile(req.getProfilePhoto());
+                user.changeProfilePhoto(profilePhotoUrl);
+            } catch (AmazonServiceException e) {
+                CustomApiResponse<Object> failResponse = CustomApiResponse
+                        .createFailWithoutData(HttpStatus.INTERNAL_SERVER_ERROR.value(), "프로필 사진 업로드에 실패하였습니다: " + e.getErrorMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(failResponse);
+            } catch (SdkClientException e) {
+                CustomApiResponse<Object> failResponse = CustomApiResponse
+                        .createFailWithoutData(HttpStatus.INTERNAL_SERVER_ERROR.value(), "프로필 사진 업로드에 실패하였습니다: " + e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(failResponse);
+            }
+        }
+
+        userRepository.flush();
+
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CustomApiResponse.createSuccess(HttpStatus.OK.value(), null, "수정을 성공하였습니다."));
     }
