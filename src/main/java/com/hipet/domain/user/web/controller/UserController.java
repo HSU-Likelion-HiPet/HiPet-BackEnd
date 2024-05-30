@@ -11,6 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/user")
@@ -46,6 +49,20 @@ public class UserController {
         return result;
     }
 
+    //내가 등록한 동물 글 삭제
+    @DeleteMapping("/{loginId}/animal")
+    public ResponseEntity<CustomApiResponse<?>> deleteAnimal(@PathVariable String loginId, @RequestBody Map<String, List<Long>> animalIds) {
+        List<Long> ids=animalIds.get("animalIds");
+        return userService.deleteUserPostAnimal(loginId, ids);
+    }
+
+
+    //내가 찜한 게시글 삭제
+    @DeleteMapping("/{loginId}/liked")
+    public ResponseEntity<CustomApiResponse<?>> deleteLiked(@PathVariable String loginId, @RequestBody Map<String, List<Long>> animalIds) {
+        List<Long> ids=animalIds.get("animalIds");
+        return userService.deleteUserLikedAnimal(loginId, ids);
+    }
 
 
 

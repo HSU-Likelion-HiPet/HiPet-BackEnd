@@ -70,8 +70,9 @@ public class AnimalServiceImpl implements AnimalService {
         Animal animal = Animal.builder()
                 .animalName(request.getAnimalName())
                 .price(price)
-                .category(request.getCategory())
-                .gender(request.getGender())
+                .category(Category.valueOf(String.valueOf(request.getCategory())))
+                .region(user.getRegion()) //지역이 null로 들어가서 추가했어용!!!!
+                .gender(Gender.valueOf(String.valueOf(request.getGender())))
                 .information(request.getDescription())
                 .animalPhotos(new ArrayList<>())
                 .user(user)
