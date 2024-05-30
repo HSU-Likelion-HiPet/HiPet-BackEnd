@@ -1,5 +1,6 @@
 package com.hipet.domain.animal.web.controller;
 
+import com.hipet.domain.animal.web.dto.GetAllAnimalsResponseDto;
 import com.hipet.domain.user.service.LikedServiceImpl;
 import com.hipet.domain.user.web.dto.LikedRequestDto;
 import com.hipet.domain.animal.service.AnimalServiceImpl;
@@ -32,7 +33,7 @@ public class AnimalController {
         return registerResponse;
     }
 
-    // 동물 상세보기
+    // 동물 상세보기_ 수정해야함
     @GetMapping("/detail")
     public ResponseEntity<CustomApiResponse<GetOneAnimalResponseDto.FinalResponseDto>> getAnimalPost(@Valid @RequestBody GetOneAnimalRequestDto request){
         // GetOneAnimalRequestDto에서 animalId를 추출
@@ -48,5 +49,13 @@ public class AnimalController {
         ResponseEntity<CustomApiResponse<?>> likedAnimal = likedService.AnimalLiked(request);
 
         return likedAnimal;
+    }
+
+    // 동물 전체 보기 기능 (페이징 처리 안하기로 함)
+    @GetMapping("/all")
+    public ResponseEntity<CustomApiResponse<GetAllAnimalsResponseDto.FinalResponseDto>> getAllAnimals(){
+        ResponseEntity<CustomApiResponse<GetAllAnimalsResponseDto.FinalResponseDto>> getAllAnimalsResponse = animalService.getAllAnimals();
+
+        return getAllAnimalsResponse;
     }
 }
