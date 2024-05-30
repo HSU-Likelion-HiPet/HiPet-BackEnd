@@ -3,9 +3,10 @@ package com.hipet.domain.animal.service;
 import com.hipet.domain.animal.entity.Animal;
 import com.hipet.domain.animal.entity.AnimalPhotos;
 import com.hipet.domain.animal.entity.HashTag;
-import com.hipet.domain.animal.enums.Gender;
 import com.hipet.domain.animal.repository.AnimalRepository;
+import com.hipet.domain.animal.repository.HashTagRepository;
 import com.hipet.domain.animal.web.dto.AnimalRequestDto;
+import com.hipet.domain.animal.web.dto.GetAllAnimalsResponseDto;
 import com.hipet.domain.animal.web.dto.GetOneAnimalRequestDto;
 import com.hipet.domain.animal.web.dto.GetOneAnimalResponseDto;
 import com.hipet.domain.review.entity.Review;
@@ -14,7 +15,6 @@ import com.hipet.domain.user.entity.User;
 import com.hipet.domain.user.repository.LikedRepository;
 import com.hipet.domain.user.repository.UserRepository;
 import com.hipet.global.entity.response.CustomApiResponse;
-import com.hipet.global.enums.Category;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,7 @@ public class AnimalServiceImpl implements AnimalService {
     private final AnimalRepository animalRepository;
     private final UserRepository userRepository;
     private final LikedRepository likedRepository;
+    private final HashTagRepository hashTagRepository;
 
     // 동물 등록
     @Override
@@ -70,9 +72,9 @@ public class AnimalServiceImpl implements AnimalService {
         Animal animal = Animal.builder()
                 .animalName(request.getAnimalName())
                 .price(price)
-                .category(Category.valueOf(String.valueOf(request.getCategory())))
+                .category(request.getCategory())
                 .region(user.getRegion()) //지역이 null로 들어가서 추가했어용!!!!
-                .gender(Gender.valueOf(String.valueOf(request.getGender())))
+                .gender(request.getGender())
                 .information(request.getDescription())
                 .animalPhotos(new ArrayList<>())
                 .user(user)
@@ -195,5 +197,51 @@ public class AnimalServiceImpl implements AnimalService {
         return totalRate/allReviews.size();
     }
 
+    // 모든 동물 게시글 조회 로직
+    @Override
+    @Transactional
+    public ResponseEntity<CustomApiResponse<GetAllAnimalsResponseDto.FinalResponseDto>> getAllAnimals() {
+
+        List<GetAllAnimalsResponseDto.GetAnimalInfos> allAnimalInfos = new ArrayList<>();
+        List<Animal> allAnimals = animalRepository.findAll();
+        int totalCount = allAnimals.size();
+
+        for(Animal animal : allAnimals){
+            List<GetAllAnimalsResponseDto.Hashtag> hashtagList = new ArrayList<>();
+
+            List<HashTag> hashTags = animal.getHashTag();
+            for(HashTag hashTag : hashTags){
+                GetAllAnimalsResponseDto.Hashtag hashtagInfo = GetAllAnimalsResponseDto.Hashtag.builder()
+                        .hashtagId(hashTag.getHashtagId())
+                        .keyword(hashTag.getKeyword())
+                        .build();
+
+                hashtagList.add(hashtagInfo);
+            }
+
+
+
+            GetAllAnimalsResponseDto.GetAnimalInfos animalInfos = GetAllAnimalsResponseDto.GetAnimalInfos.builder()
+                    .animalId(animal.getAnimalId())
+                    .image(animal.getAnimalPhotos().get(0).getPhotoUrl())
+                    .animalName(animal.getAnimalName())
+                    .hashtag(hashtagList)
+                    .price(animal.getPrice())
+                    .region(String.valueOf(animal.getRegion()))
+                    .createdAt(LocalDate.from(animal.getCreatedAt()))
+                    .build();
+
+            allAnimalInfos.add(animalInfos);
+        }
+
+        GetAllAnimalsResponseDto.FinalResponseDto allAnimalsInfo = GetAllAnimalsResponseDto.FinalResponseDto.builder()
+                .totalCount(totalCount)
+                .allAnimals(allAnimalInfos)
+                .build();
+
+        CustomApiResponse<GetAllAnimalsResponseDto.FinalResponseDto> response = CustomApiResponse.createSuccess((HttpStatus.OK.value()), allAnimalsInfo, "모든 동물 조회가 완료되었습니다.");
+
+        return ResponseEntity.ok(response);
+    }
 
 }

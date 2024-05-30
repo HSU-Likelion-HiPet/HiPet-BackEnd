@@ -1,5 +1,5 @@
 package com.hipet.global.enums;
 
 public enum Category {
-    _CAT, _DOG, _FISH, _BIRD, _REPTILE
+    _AMPHIBIANS, _REPTILE, _MAMMAL, _BIRD, _FISH
 }

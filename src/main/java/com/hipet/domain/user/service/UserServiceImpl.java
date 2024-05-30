@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
         User user = idExistUser.get();
 
         // 사용자가 작성한 글, 받은 리뷰, 찜한 게시물 조회
-        List<Animal> animals = animalRepository.findByUser_UserId(user.getUserId());
+        List<Animal> animals = userRepository.findByLoginId(user.getLoginId()).get().getAnimalList();
         List<Review> reviews = reviewRepository.findByUserId_UserId(user.getUserId());
         List<Liked> likes = likedRepository.findByUserId_UserId(user.getUserId());
 
