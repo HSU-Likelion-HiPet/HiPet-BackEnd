@@ -47,6 +47,7 @@ public class User extends BaseEntity {
     private Double totalUserRate;*/
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Animal> animalList; //이 사용자가 등록한 동물 게시글
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -55,6 +56,7 @@ public class User extends BaseEntity {
 
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Liked> likedList;
 
     // 사용자 이름 수정 메소드

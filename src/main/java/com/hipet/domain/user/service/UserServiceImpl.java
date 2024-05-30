@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
         // 사용자가 작성한 글, 받은 리뷰, 찜한 게시물 조회
         List<Animal> animals = animalRepository.findByUser_UserId(user.getUserId());
         List<Review> reviews = reviewRepository.findByUserId_UserId(user.getUserId());
-        List<Liked> likes = likedRepository.findByUser_UserId(user.getUserId());
+        List<Liked> likes = likedRepository.findByUserId_UserId(user.getUserId());
 
         // UserPageDto 생성
         UserPageDto userPageDto = UserPageDto.builder()
@@ -158,5 +158,46 @@ public class UserServiceImpl implements UserService {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CustomApiResponse.createSuccess(HttpStatus.OK.value(), null, "수정을 성공하였습니다."));
+    }
+
+    @Transactional
+    @Override
+    public ResponseEntity<CustomApiResponse<?>> deleteUserPostAnimal(String loginId, List<Long> animalIds) {
+        Optional<User> idExistUser = userRepository.findByLoginId(loginId);
+        if (idExistUser.isEmpty()) {
+            CustomApiResponse<Object> failResponse = CustomApiResponse.createFailWithoutData(HttpStatus.NOT_FOUND.value(), "아이디가 존재하지 않는 회원입니다.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failResponse);
+        }
+
+        User user = idExistUser.get();
+        List<Animal> deleteAnimals = animalRepository.findAllById(animalIds);
+
+        List<Animal> deleteOwnAnimals = deleteAnimals.stream()
+                .filter(animal -> animal.getUser().equals(user))
+                .collect(Collectors.toList());
+
+        animalRepository.deleteAll(deleteOwnAnimals);
+        animalRepository.flush();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CustomApiResponse.createSuccess(HttpStatus.OK.value(), null, "게시물이 삭제되었습니다."));
+    }
+
+    @Transactional
+    @Override
+    public ResponseEntity<CustomApiResponse<?>> deleteUserLikedAnimal(String loginId, List<Long> animalIds) {
+        Optional<User> idExistUser = userRepository.findByLoginId(loginId);
+        if (idExistUser.isEmpty()) {
+            CustomApiResponse<Object> failResponse = CustomApiResponse
+                    .createFailWithoutData(HttpStatus.NOT_FOUND.value(), "아이디가 존재하지 않는 회원입니다.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(failResponse);
+        }
+
+        User user = idExistUser.get();
+        List<Liked> deleteLiked = likedRepository.findByUserAndAnimal(user, animalIds);
+        likedRepository.deleteAll(deleteLiked);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CustomApiResponse.createSuccess(HttpStatus.OK.value(), null, "찜한 게시물을 삭제하였습니다."));
     }
 }
