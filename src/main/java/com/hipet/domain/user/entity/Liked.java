@@ -21,12 +21,13 @@ public class Liked{
     private Long likedId;
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_Id")
+    @JsonBackReference
     private User userId;
 
     @ManyToOne
     @JsonIgnoreProperties("likedList")
-    @JoinColumn(name = "animalId")
+    @JoinColumn(name = "animal_Id")
     private Animal animalId;
 
 
