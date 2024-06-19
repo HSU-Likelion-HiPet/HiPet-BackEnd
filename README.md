@@ -22,3 +22,5 @@
 - ‼️ micro commit ‼️
 - gitmoji : commit message 앞에 붙이는 이모지 !
 - https://gitmoji.dev/
+
+✨ 커밋 메세지에는 통합검색 오류 수정에 실패하였다고 나와있지만.. 통합검색 기능까지 구현 완료 되어있는 버전입니다.
